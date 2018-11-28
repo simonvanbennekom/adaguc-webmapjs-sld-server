@@ -12,11 +12,10 @@ git clone https://github.com/simonvanbennekom/adaguc-webmapjs-sld-server.git
 
 Run the following commands:
 
-1. cd adaguc-webmapjs-sld-server/bashScripts
-2. bash env.sh
-3. cd ../
-4. source env/bin/activate
-5. pip install Flask
+1. cd adaguc-webmapjs-sld-server
+2. bash bashCreateEnv.sh
+3. source env/bin/activate
+4. pip install Flask
 
 To close the env run the following command:
 
@@ -24,9 +23,6 @@ To close the env run the following command:
 
 ## Run Server.py
 
-1. export FLASK_APP=Server.py
+1. bash bashRunFlask.sh
 
-* **Run with debug** 
-    * export FLASK_ENV=development
-
-2. flask run
+Default debugging is off, edit the bashRunFlask.sh file to enable debugging

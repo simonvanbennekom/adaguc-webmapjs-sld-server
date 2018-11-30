@@ -22,8 +22,8 @@ def processSLD(file_name = "") :
             ## starts with <xml> and ends with </xml>
             ## Parse it and check if xml gives any errors
 
-            tree = ET.ElementTree(ET.fromstring(request_data))
-            tree.write("filename.xml")
+            # tree = ET.ElementTree(ET.fromstring(request_data))
+            # tree.write("filename.xml")
 
             
             fileUploadPath = os.path.join('./sldFiles', 'sld.xml')

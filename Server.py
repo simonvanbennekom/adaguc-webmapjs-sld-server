@@ -1,6 +1,8 @@
 # File: Server.py
 
 from flask import Flask, request
+from flask_cors import CORS
+
 import configparser
 import sys
 import os
@@ -8,6 +10,7 @@ import glob
 import xml.etree.ElementTree as ET
 
 app = Flask(__name__)
+CORS(app)
 
 #Load config.ini file
 config = configparser.ConfigParser()
@@ -16,28 +19,28 @@ config.read('config.ini')
 @app.route('/processSLD', methods=['POST'])
 @app.route('/processSLD/<fileName>', methods=['POST'])
 def processSLD(fileName = '') :
-    if not request.data :
-        return 'SLD file cannot be empty'
-    else : 
-        if isValidFileSize(request.data) :
+    if not request.get_data() :
+        return 'SLD file cannot be empty', 400
+    else :
+        if isValidFileSize(request.get_data()) :
             #read SLD data into string
-            requestData = ''.join(map(chr, request.data))
+            requestData = ''.join(map(chr, request.get_data()))
             
             # starts with <?xml> and ends with StyledLayerDescriptor>
             if(requestData.startswith('<?xml') == False or requestData.endswith('StyledLayerDescriptor>') == False) :
-                return 'Invalid SLD, not matching standard'
+                return 'Invalid SLD, not matching standard', 400
                 
             #Parse XML and catch error if raised
             try:
                 tree = ET.ElementTree(ET.fromstring(requestData))
             except ET.ParseError as error:
                 row, column = error.position
-                return 'Invalid XML on line number: %i' % row
+                return 'Invalid XML on line number: %i' % row, 400
                         
             #Have FileName
             if fileName :
                 if fileNameExists(fileName) : 
-                    return 'Your file name:  %s.xml already exists. Try another' % fileName
+                    return 'Your file name:  %s.xml already exists. Try another' % fileName, 400
             else :
                 #Generate a filename
 
@@ -61,13 +64,13 @@ def processSLD(fileName = '') :
                     url = os.path.realpath(file.name)
                     file.close()
 
-                    return url                    
+                    return url, 200             
                 else :
-                    return 'Filename must contain at least 4 characters'
+                    return 'Filename must contain at least 4 characters', 400
             else : 
-                return 'Something went wrong generating a fileName, try to submit again...'            
+                return 'Something went wrong generating a fileName, try to submit again...', 400        
         else : 
-            return 'File size to big'
+            return 'File size to big', 400
 
 
 #Check if file size is not greater then the MaxFileSize

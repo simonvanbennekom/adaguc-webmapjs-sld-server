@@ -1,6 +1,6 @@
 export FLASK_APP=Server.py
 
 #Run with Debug
-export FLASK_ENV=development
+# export FLASK_ENV=development
 
-flask run
+python -m flask run --host=0.0.0.0

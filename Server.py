@@ -64,7 +64,7 @@ def processSLD(fileName = '') :
                     url = os.path.realpath(file.name)
                     file.close()
 
-                    return url, 200             
+                    return url, 200
                 else :
                     return 'Filename must contain at least 4 characters', 400
             else : 
@@ -80,7 +80,6 @@ def isValidFileSize(file = '') :
 def generateFileName(numberToAppend, defaultFilesNames) :
     #Create fileName
     uniqueFileName = config.get('SLD', 'DefaultFileName') + '_' + str(numberToAppend)
-    print(uniqueFileName)
     
     if uniqueFileName in defaultFilesNames :
         generateFileName(numberToAppend+1, defaultFilesNames)

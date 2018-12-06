@@ -59,8 +59,8 @@ def processSLD(fileName = '') :
 
             #Double check if fileName still exists
             if fileName :
-                #Check if fileName contain at least 4 characters
-                if len(fileName) >= 4 :
+                #Check if fileName contain at least 4 characters and max 20
+                if len(fileName) >= 4 and len(fileName) <= 20 :
                     fileUploadPath = os.path.join(config.get('SLD', 'DIR'), getFileNameWithExtension(fileName))
                     file = open(fileUploadPath, "w")
                     file.write(requestData)
@@ -68,7 +68,7 @@ def processSLD(fileName = '') :
 
                     return createSuccessResponse('SLD is succesfully created!', {'url' : request.host_url + config.get('SLD', 'DIR') + getFileNameWithExtension(fileName) })
                 else :
-                    return createErrorResponse('Filename must contain at least 4 characters')
+                    return createErrorResponse('Filename must contain between 4 and 20 characters')
             else : 
                 return createErrorResponse('Something went wrong generating a fileName, try to submit again...')
         else : 
